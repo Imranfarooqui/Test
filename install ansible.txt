@@ -1,0 +1,21 @@
+sudo su -
+apt update
+apt install software-properties-common
+add-apt-repository ppa:deadsnakes/ppa
+apt install python3.8 -y
+python3.8 --version
+apt install ansible -y
+
+mkdir /erc/ansible
+cat<<EOF>> /etc/ansible/hosts
+[ws]
+
+EOF
+
+ansible all -m ping
+ansible ws -m file -a "dest=/home/ubuntu//abc mode=400 owner=ubuntu group=ubuntu state=directory
+
+src=website1.zip--> ws ==> dest=/tmp/
+ansible ws -m copy-a "src=home/ubuntu/website1.zip dest=/tmp/"
+ansible ws -m file -a "dest=/home/ubuntu/abc mode=400 owner=ubuntu group=ubuntu state=directory
+snsible ws -m file -a "dest=/home/ubuntu/abc state=absent

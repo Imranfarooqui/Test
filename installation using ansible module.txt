@@ -1,0 +1,64 @@
+---
+- name: key value pair example
+  hosts: localhost
+  tasks:
+  - debug:
+      msg: "key = {{ item.key }}, value = {{ item.value }}"
+    with_items:
+      - { key: 'fruit', value: 'banana' }
+      - { key: 'fruit', value: 'orange' }
+      - { key: 'veggy', value: 'onion' }
+      - { key: 'veggy', value: 'pepper' }
+
+
+---
+- name: Run Commands using Shell Module
+  hosts: ws
+  tasks:
+  - name: Check Date to all Managed Servers
+    shell:
+       "date"
+    register: datecmd
+    tags: datecmd
+  - debug: msg="{{datecmd.stdout}}"
+
+---
+- name: Shell Examples
+  hosts: ws
+  tasks:
+    - name: Dir list and write to file
+      shell:
+         " ls -lrt / | awk '{print $9}' > /tmp/dfList.txt "
+      register: lsout
+      tags: lsout
+    - name: Display the file
+      shell: cat /tmp/dfList.txt
+      register: displaylist
+    - debug: msg="{{ displaylist.stdout_lines }}"
+
+
+---
+- name: install Apache Web-Server
+  hosts: all
+  tasks:
+    - name: Install Apache on Ubuntu Server
+      apt: name=apache2 state=present
+      become: yes
+      when: ansible_os_family == "Debian" and ansible_distribution_version == "22.04"
+
+    - name: Install Apache on Centos Server
+      yum: name=ngnix state=present
+      become: yes
+      when: ansible_os_family == "Redhat"
+    
+    - name: Install Apache on Ubuntu Server
+      apt: name=httpd state=present
+      become: yes
+      when: ansible_os_family == "Debian" and ansible_distribution_version == "18.04"
+
+    - name: Check disk space usage on servers
+       shell: df -Th
+       register: result
+    - debug:
+       var: result.stdout_lines
+       when: ansible_os_family == "Debian" or ansible_os_family == "RedHat"

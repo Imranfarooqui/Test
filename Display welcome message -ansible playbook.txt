@@ -1,0 +1,8 @@
+---
+- name: Display Welcome Message
+  hosts: ws
+  become: yes
+  tasks:
+    - name: Print welcome message
+      ansible.builtin.debug:
+        msg: Welcome to NubeEra

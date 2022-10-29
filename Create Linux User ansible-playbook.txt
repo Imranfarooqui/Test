@@ -1,0 +1,10 @@
+---
+- name: Create Linux User
+  hosts: ws
+  become: yes
+  tasks:
+    - name: Create a login user in linux
+      user:
+        name: "aaa"
+        password: "$6$OKOPlAnSFVwWH45O$pSeI8BDIv75tSc.GO8ArgK7jf4IA2rBN1bDX7pCFmVCj4WpoDU9OE6dPlvlIEyqbppuJUpz25OngcoU0JeV2a0"
+        state: present

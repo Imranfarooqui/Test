@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo apt update
+sudo apt install python3-pip -y
+sudo mkdir /etc/ansible
+sudo bash -c 'cat<<EOF > /etc/ansible/hosts
+[ws]
+127.0.0.1
+100.26.99.15
+EOF'
+sudo apt install ansible -y | sudo apt install ansible-core -y
+
+scp -i mujahed.pem mujahed.pem ubuntu@54.167.47.117:/home/ubuntu/.ssh
+
+ansible-vault create secure.yml
+ansible-vault view secure.yml
